@@ -9,4 +9,5 @@
 // | Author: liu21st <liu21st@gmail.com>
 // +----------------------------------------------------------------------
 
-
+// 发送验证码 
+Route::post('user/sendcode','api/v1.User/sendCode');
