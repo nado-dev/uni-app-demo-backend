@@ -6,7 +6,7 @@ api.php     api有关配置
 
 TODO
 * [x] 阿里SMS验证码SDK对接
-* [ ] 第三方API登录对接
-    * [ ] QQ
+* [x] 第三方API登录对接
+    * [ ] QQ 
     * [ ] weibo
     * [ ] wechat

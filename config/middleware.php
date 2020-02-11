@@ -14,5 +14,7 @@
 // +----------------------------------------------------------------------
 return [
     // 默认中间件命名空间
-    'default_namespace' => 'app\\http\\middleware\\',
+    'ApiUserAuth'  =>  app\http\middleware\ApiUserAuth::class,
+    'ApiUserStatus' => app\http\middleware\ApiUserStatus::class,
+    'ApiUserBindPhone' => app\http\middleware\ApiUserBindPhone::class,
 ];

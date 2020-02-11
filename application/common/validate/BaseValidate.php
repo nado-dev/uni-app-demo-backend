@@ -17,4 +17,13 @@ class BaseValidate extends Validate
          }
          return true;
     }
+
+    protected function isPerfectCode($value, $rule='', $data='', $field= ''){ // feild = 'code'
+        // 从缓存中取出当前手机号对应的存入验证码
+        $beforeCode = cache($data['phone']);
+        // 已过期
+        if(! $beforeCode) return '请重新获取验证码';
+        if($value != $beforeCode) return "验证码错误,应该是".$beforeCode."而输入的是".$value;
+        return true;
+    }
 }
