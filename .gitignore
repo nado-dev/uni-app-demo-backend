@@ -6,3 +6,4 @@ thinkphp
 .env
 .DS_Store
 api.php
+/public/uploads

@@ -26,4 +26,25 @@ class BaseValidate extends Validate
         if($value != $beforeCode) return "验证码错误,应该是".$beforeCode."而输入的是".$value;
         return true;
     }
+
+
+        // 话题是否存在
+    protected function isTopicExist($value, $rule='', $data='', $field='')
+    {
+        if ($value==0) return true;
+        // 指定id字段
+        if (\app\common\model\Topic::field('id')->find($value)) {
+            return true;
+        }
+        return "该话题已不存在";
+    }
+
+    // 文章分类是否存在
+    protected function isPostClassExist($value, $rule='', $data='', $field='')
+    {
+        if (\app\common\model\PostClass::field('id')->find($value)) {
+            return true;
+        }
+        return "该文章分类已不存在";
+    }
 }

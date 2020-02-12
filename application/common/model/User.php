@@ -6,6 +6,7 @@ use think\Model;
 use app\lib\exception\BaseException;
 use think\facade\Cache;
 use app\common\controller\AliSMSController;
+use app\common\validate\UserValidate;
 
 class User extends Model
 {
@@ -245,6 +246,59 @@ class User extends Model
         if (!Cache::pull(request()->userToken)) 
         TApiException('你已经退出了',30006);
         return true;
+    }    
+
+
+        // 关联文章 一对多
+    public function post(){
+        return $this->hasMany('Post');
+    }
+
+
+
+    // 获取指定用户下文章
+    public function getPostList(){
+        $params = request()->param();
+        $user = $this->get($params['id']);
+        if (!$user) TApiException('该用户不存在',10000);
+
+        return $user->post()->with(
+            [
+                'user'=>function($query){
+                    return $query->field('id,username,userpic');
+                },
+                'images'=>function($query){
+                    return $query->field('url');
+                },
+                'share'])->where('isopen',1)->page($params['page'],10)->select();
+                // where 权限控制
+    }
+
+
+        // 获取指定用户下所有文章
+    public function getAllPostList(){
+        $params = request()->param();
+        // 获取用户id 中间件已经获取了
+        $user_id = request()->userId;
+        return $this->get($user_id)->post()->with(
+            [
+            'user'=>function($query){
+                return $query->field('id,username,userpic');
+            },
+            'images'=>function($query){
+                return $query->field('url');
+            },
+            'share'])->page($params['page'],10)->select();
+            // 遇上一个相比无权限控制
+    }
+
+
+        // 搜索用户
+    public function Search(){
+        // 获取所有参数
+        $param = request()->param();
+        // 必须隐藏密码字段
+        return $this->where('username','like','%'.$param['keyword'].'%')->page($param['page'],10)->hidden(['password'])->select();
     }
 }
 

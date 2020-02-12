@@ -30,6 +30,9 @@ class UserValidate extends BaseValidate
         'avatarUrl'=>'require',
         // 有效期
         'expires_in'=>'require',
+        'id'=>'require|integer|>:0',
+        'page'=>'require|integer|>:0',
+        
     ];
     
     /**
@@ -60,5 +63,9 @@ class UserValidate extends BaseValidate
         'login' => ['username', 'password'],
         // 第三方登录
         'otherlogin'=>['provider','openid','nickName','avatarUrl','expires_in'],
+        // 获取当前用户的文章列表 无需登录 任意用户 权限为公开
+        'post'=>['id','page'],
+        // 当前已登录用户下的所有文章 
+        'allpost'=>['page'],
     ];
 }
