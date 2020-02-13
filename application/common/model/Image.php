@@ -6,6 +6,11 @@ use think\Model;
 
 class Image extends Model
 {
+
+    // 自动写入时间
+    protected $autoWriteTimestamp = true;
+
+    
 // 上传多图
 public function uploadMore(){
     $image = $this->upload(request()->userId,'imglist')->toArray();

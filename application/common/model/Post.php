@@ -16,6 +16,10 @@ class Post extends Model
     public function images(){
         return $this->belongsToMany('Image','post_image');
     }
+    // 关联顶踩表
+    public function support(){
+        return $this->hasMany("Support");
+    }
 
 
     // 发布文章
@@ -114,5 +118,23 @@ class Post extends Model
                 // 如果这篇文章是被分享的，得到原文章的信息
                     'share'
             ])->page($param['page'],10)->select();
+    }
+
+
+        // 关联评论
+    public function comment(){
+        return $this->hasMany('Comment');
+    }
+
+
+    // 获取评论
+    public function getComment(){
+        $params = request()->param();
+        // 注意要声明comment和user表的关系
+        return self::get($params['id'])->comment()->with([
+            'user'=>function($query){
+                return $query->field('id,username,userpic');
+            }
+        ])->select();
     }
 }

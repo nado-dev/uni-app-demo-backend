@@ -42,7 +42,7 @@ Route::group('api/:version/', function(){
     // 获取指定话题下的文章列表
     Route::get('topic/:id/post/:page', 'api/v1.Topic/post');
     // 获取指定文章分类下的文章
-    Route::get('postclass/:id/post/:page', 'api/v1.PostClass/post');
+    Route::get('postclass/:id/post/:page', 'api/v1.PostClass/post')->middleware(['ApiGetUserid']);
     // 获取指定用户下的文章
     Route::get('user/:id/post/:page', 'api/v1.User/post');
 
@@ -57,6 +57,9 @@ Route::group('api/:version/', function(){
     
     // 广告列表
     Route::get('adsense/:type', 'api/v1.Adsense/index');
+
+    // 获取当前文章的所有评论
+    Route::get('post/:id/comment','api/v1.Post/comment');
 });
 
 // 通过headers提供token
@@ -65,6 +68,9 @@ Route::group('api/:version/', function(){
 Route::group('api/:version/',function(){
     // 退出登录 只需验证token
     Route::post('user/logout','api/:version.User/logout');
+
+    // 绑定手机
+    Route::post('user/bindphone','api/v1.User/bindphone');
 
 })->middleware(['ApiUserAuth']);
 
@@ -77,4 +83,28 @@ Route::group('api/:v1/',function(){
     Route::post('post/create','api/v1.Post/create');
     // 获取指定用户下的所有文章（含隐私）
     Route::get('user/post/:page', 'api/v1.User/Allpost');
+    
+    // 绑定邮箱
+    Route::post('user/bindemail','api/v1.User/bindemail');
+    // 绑定第三方
+    Route::post('user/bindother','api/v1.User/bindother');
+
+    // 用户顶踩
+    Route::post('support', 'api/v1.Support/index');
+
+    // 用户评论
+    Route::post('post/comment','api/v1.Comment/comment');
+
+    // 编辑头像
+    Route::post('edituserpic','api/v1.User/editUserpic');
+    // 编辑资料
+    Route::post('edituserinfo','api/v1.User/editinfo');
+    // 修改密码
+    Route::post('repassword','api/v1.User/rePassword');
+    
+
+    // 加入黑名单
+    Route::post('addblack','api/:v1.Blacklist/addBlack');
+    // 移出黑名单
+    Route::post('removeblack','api/:v1.Blacklist/removeBlack');
 })->middleware(['ApiUserAuth','ApiUserBindPhone','ApiUserStatus']);

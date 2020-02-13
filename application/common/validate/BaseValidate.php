@@ -47,4 +47,33 @@ class BaseValidate extends Validate
         }
         return "该文章分类已不存在";
     }
+
+        // 文章是否存在
+    protected function isPostExist($value, $rule='', $data='', $field=''){
+        if (\app\common\model\Post::field('id')->find($value)) {
+        return true;
+        }
+        return "该文章已不存在";
+    }
+
+
+    // 评论是否存在
+    protected function isCommentExist($value,$rule='',$data='',$field='')
+    {
+        if ($value==0) return true;
+        if (\app\common\model\Comment::field('id')->find($value)) {
+            return true;
+        }
+        return "回复的评论已不存在";
+    }
+
+
+    // 用户是否存在
+    protected function isUserExist($value, $rule='', $data='', $field='')
+    {
+        if (\app\common\model\User::field('id')->find($value)) {
+            return true;
+        }
+        return "该用户已不存在";
+    }
 }

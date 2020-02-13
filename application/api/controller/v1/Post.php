@@ -25,4 +25,12 @@ class Post extends BaseController
         $detail = (new PostModel) -> getPostDetail();
         return self::showResCode('获取成功',['detail'=>$detail]);
     }
+
+        // 文章评论列表
+    public function comment(){
+        // 验证文章id
+        (new PostValidate())->goCheck('detail');
+        $list = (new PostModel) -> getComment();
+        return self::showResCode('获取成功',['list'=>$list]);
+    }
 }

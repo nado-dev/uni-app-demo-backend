@@ -7,6 +7,9 @@ use app\common\validate\TopicClassValidate;
 use app\common\model\TopicClass as PostClassModel;
 class PostClass extends Model
 {
+    
+  
+
         // 获取所有文章分类
         // field 限制查询数据表的字段
         // where 查询出状态为1的记录 
@@ -23,6 +26,7 @@ class PostClass extends Model
     // 获取指定分类下的文章（分页）
     public function getPost(){
         // 获取所有参数
+        $userId=request()->userId ? request()->userId : 0;
         $param = request()->param();
         return self::get($param['id'])->post()->with(
             [
@@ -34,6 +38,10 @@ class PostClass extends Model
                     return $query->field('url');
                 },
                     'share'
+                ,
+                    'support'=>function($query) use($userId){
+                        return $query->where('user_id', $userId);
+                    }
             ])->page($param['page'],10)->select();
     }
 }

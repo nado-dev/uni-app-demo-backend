@@ -32,7 +32,20 @@ class UserValidate extends BaseValidate
         'expires_in'=>'require',
         'id'=>'require|integer|>:0',
         'page'=>'require|integer|>:0',
-        
+        'email'=>'require|email',
+        // 头像
+        'userpic'=>'image',
+        // 用户资料
+        'name'=>'require|chsDash',
+        // sex 0女 1男 2未定义
+        'sex'=>'require|in:0,1,2',
+        'qg'=>'require|in:0,1,2',
+        'job'=>'require|chsAlpha',
+        'birthday'=>'require|dateFormat:Y-m-d',
+        'path'=>'require|chsDash',
+        'oldpassword'=>'require',
+        'newpassword'=>'require|alphaDash',
+        'renewpassword'=>'require|confirm:newpassword',
     ];
     
     /**
@@ -67,5 +80,17 @@ class UserValidate extends BaseValidate
         'post'=>['id','page'],
         // 当前已登录用户下的所有文章 
         'allpost'=>['page'],
+        // 绑定手机
+        'bindphone'=>['phone'],
+        // 绑定邮箱
+        'bindemail'=>['email'],
+        // 绑定第三方
+        'bindother'=>['provider','openid','nickName','avatarUrl'],
+        // 修改头像
+        'edituserpic'=>['userpic'],
+        // 修改用户信息
+        'edituserinfo'=>['name','sex','qg','job','birthday','path'],
+        // 修改用户密码
+        'repassword'=>['oldpassword','newpassword','renewpassword'],
     ];
 }

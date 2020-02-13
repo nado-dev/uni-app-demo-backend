@@ -81,4 +81,50 @@ class User extends BaseController
         $list = (new UserModel())->getAllPostList();
         return self::showResCode('获取成功',['list'=>$list]);
     }
+
+
+    // 绑定手机
+    public function bindphone(){
+        (new UserValidate())->goCheck('bindphone');
+        // 绑定
+        (new UserModel())->bindphone();
+        return self::showResCodeWithOutData('绑定成功');
+    }
+
+        // 绑定邮箱
+    public function bindemail(){
+        (new UserValidate())->goCheck('bindemail');
+        // 绑定
+        (new UserModel())->bindemail();
+        return self::showResCodeWithOutData('绑定成功');
+    }
+
+
+        // 绑定第三方
+    public function bindother(){
+        (new UserValidate())->goCheck('bindother');
+        (new UserModel())->bindother();
+        return self::showResCodeWithOutData('绑定成功');
+    }
+
+        // 修改头像
+    public function editUserpic(){
+        (new UserValidate())->goCheck('edituserpic');      
+        (new UserModel())->editUserpic();
+        return self::showResCodeWithOutData('修改头像成功');
+    }
+
+        // 修改资料
+    public function editinfo(){
+        (new UserValidate())->goCheck('edituserinfo');
+        (new UserModel())->editUserinfo();
+        return self::showResCodeWithOutData('修改成功');
+    }
+
+        // 修改密码
+    public function rePassword(){
+        (new UserValidate())->goCheck('repassword'); 
+        (new UserModel())->repassword();
+        return self::showResCodeWithOutData('修改密码成功');
+    }
 }
