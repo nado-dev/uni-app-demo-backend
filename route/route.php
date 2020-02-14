@@ -32,34 +32,35 @@ Route::group('api/:version/', function(){
     // 获取文章分类 （首页） none
     Route::get('postclass', 'api/:version.PostClass/index');
     // 获取话题分类 none
-    Route::get('topicclass','api/v1.TopicClass/index');
+    Route::get('topicclass','api/:version.TopicClass/index');
     // 获取热门话题 none
-    Route::get('hottopic','api/v1.Topic/index');
+    Route::get('hottopic','api/:version.Topic/index');
     // 获取指定话题分类下的话题列表 id：话题id， page:页数
-    Route::get('topicclass/:id/topic/:page', 'api/v1.TopicClass/topic');
+    Route::get('topicclass/:id/topic/:page', 'api/:version.TopicClass/topic');
      // 获取文章详情
-    Route::get('post/:id', 'api/v1.Post/index');
+    Route::get('post/:id', 'api/:version.Post/index');
     // 获取指定话题下的文章列表
-    Route::get('topic/:id/post/:page', 'api/v1.Topic/post');
+    Route::get('topic/:id/post/:page', 'api/:version.Topic/post');
     // 获取指定文章分类下的文章
-    Route::get('postclass/:id/post/:page', 'api/v1.PostClass/post')->middleware(['ApiGetUserid']);
+    Route::get('postclass/:id/post/:page', 'api/:version.PostClass/post')->middleware(['ApiGetUserid']);
     // 获取指定用户下的文章
-    Route::get('user/:id/post/:page', 'api/v1.User/post');
+    Route::get('user/:id/post/:page', 'api/:version.User/post');
 
 
     // 搜索话题
-    Route::post('search/topic', 'api/v1.Search/topic');
+    Route::post('search/topic', 'api/:version.Search/topic');
     // 搜索文章
-    Route::post('search/post', 'api/v1.Search/post');
+    Route::post('search/post', 'api/:version.Search/post');
     // 搜索用户
-    Route::post('search/user', 'api/v1.Search/user');
+    Route::post('search/user', 'api/:version.Search/user');
 
     
     // 广告列表
-    Route::get('adsense/:type', 'api/v1.Adsense/index');
+    Route::get('adsense/:type', 'api/:version.Adsense/index');
 
     // 获取当前文章的所有评论
-    Route::get('post/:id/comment','api/v1.Post/comment');
+    Route::get('post/:id/comment','api/:version.Post/comment');
+    Route::post('update','api/:version.Update/update');
 });
 
 // 通过headers提供token
@@ -70,7 +71,7 @@ Route::group('api/:version/',function(){
     Route::post('user/logout','api/:version.User/logout');
 
     // 绑定手机
-    Route::post('user/bindphone','api/v1.User/bindphone');
+    Route::post('user/bindphone','api/:version.User/bindphone');
 
 })->middleware(['ApiUserAuth']);
 
@@ -107,4 +108,21 @@ Route::group('api/:v1/',function(){
     Route::post('addblack','api/:v1.Blacklist/addBlack');
     // 移出黑名单
     Route::post('removeblack','api/:v1.Blacklist/removeBlack');
+
+    // 关注
+    Route::post('follow','api/v1.User/follow');
+    // 取消关注
+    Route::post('unfollow','api/v1.User/unfollow');
+    // 互关列表
+    Route::get('friends/:page','api/v1.User/friends');
+    // 粉丝列表
+    Route::get('fens/:page','api/v1.User/fens');
+    // 关注列表
+    Route::get('follows/:page','api/v1.User/follows');
+
+    // 用户反馈
+    Route::post('feedback','api/:v1.Feedback/feedback');
+
+    // 获取用户反馈列表
+    Route::get('feedbacklist/:page','api/:v1.Feedback/feedbacklist');
 })->middleware(['ApiUserAuth','ApiUserBindPhone','ApiUserStatus']);

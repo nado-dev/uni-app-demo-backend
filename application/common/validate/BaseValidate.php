@@ -76,4 +76,12 @@ class BaseValidate extends Validate
         }
         return "该用户已不存在";
     }
+
+
+    // 不能为空
+    protected function NotEmpty($value, $rule='', $data='', $field='')
+    {
+        if (empty($value)) return $field."不能为空";
+        return true;
+    }
 }

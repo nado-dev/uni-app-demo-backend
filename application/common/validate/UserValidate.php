@@ -46,6 +46,8 @@ class UserValidate extends BaseValidate
         'oldpassword'=>'require',
         'newpassword'=>'require|alphaDash',
         'renewpassword'=>'require|confirm:newpassword',
+        'follow_id'=>'require|integer|>:0|isUserExist',
+        
     ];
     
     /**
@@ -92,5 +94,15 @@ class UserValidate extends BaseValidate
         'edituserinfo'=>['name','sex','qg','job','birthday','path'],
         // 修改用户密码
         'repassword'=>['oldpassword','newpassword','renewpassword'],
+        // 关注用户
+        'follow'=>['follow_id'],
+        // 取消关注
+        'unfollow'=>['follow_id'],
+        // 获取互关列表
+        'getfriends'=>['page'],
+        // 粉丝列表
+        'getfens'=>['page'],
+        // 关注列表
+        'getfollows'=>['page'],
     ];
 }

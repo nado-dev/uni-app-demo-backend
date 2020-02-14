@@ -127,4 +127,43 @@ class User extends BaseController
         (new UserModel())->repassword();
         return self::showResCodeWithOutData('修改密码成功');
     }
+
+    // 关注
+    public function follow(){
+        return 1;
+        (new UserValidate())->goCheck('follow'); 
+        (new UserModel())->ToFollow();
+        return self::showResCodeWithOutData('关注成功');
+    }
+
+
+    // 取消关注
+    public function unfollow(){
+        (new UserValidate())->goCheck('unfollow'); 
+        (new UserModel())->ToUnFollow();
+        return self::showResCodeWithOutData('取消关注成功');
+    }
+
+
+    // 互关列表
+    public function friends(){
+        (new UserValidate())->goCheck('getfriends'); 
+        $list = (new UserModel())->getFriendsList();
+        return self::showResCode('获取成功',['list'=>$list]);
+    }
+
+
+    // 粉丝列表
+    public function fens(){
+        (new UserValidate())->goCheck('getfens'); 
+        $list = (new UserModel())->getFensList();
+        return self::showResCode('获取成功',['list'=>$list]);
+    }
+
+        // 关注列表
+    public function follows(){
+        (new UserValidate())->goCheck('getfollows'); 
+        $list = (new UserModel())->getFollowsList();
+        return self::showResCode('获取成功',['list'=>$list]);
+    }
 }

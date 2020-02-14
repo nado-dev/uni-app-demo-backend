@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "188725902478b86bf7181faab3bdb67b",
+    "content-hash": "3ca90f45ca94699910f1e0ca61abdee8",
     "packages": [
         {
             "name": "adbario/php-dot-notation",
@@ -804,6 +804,153 @@
                 }
             ],
             "time": "2018-05-11T06:45:42+00:00"
+        },
+        {
+            "name": "topthink/think-worker",
+            "version": "v2.0.11",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/top-think/think-worker.git",
+                "reference": "bee4408caf10a48df6a91e17f5b64f72a25bf1f8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/top-think/think-worker/zipball/bee4408caf10a48df6a91e17f5b64f72a25bf1f8",
+                "reference": "bee4408caf10a48df6a91e17f5b64f72a25bf1f8",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "topthink/framework": "^5.1.18",
+                "topthink/think-installer": "^2.0",
+                "workerman/gateway-worker": "^3.0.0",
+                "workerman/workerman": "^3.3.0"
+            },
+            "type": "think-extend",
+            "extra": {
+                "think-config": {
+                    "worker": "src/config/worker.php",
+                    "worker_server": "src/config/server.php",
+                    "gateway_worker": "src/config/gateway.php"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "think\\worker\\": "src"
+                },
+                "files": [
+                    "src/command.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "liu21st",
+                    "email": "liu21st@gmail.com"
+                }
+            ],
+            "description": "workerman extend for thinkphp5.1",
+            "time": "2018-09-14T05:56:22+00:00"
+        },
+        {
+            "name": "workerman/gateway-worker",
+            "version": "v3.0.13",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/GatewayWorker.git",
+                "reference": "38b44c95f21cd340b5a9cff3987ddb2abb9a2a38"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/GatewayWorker/zipball/38b44c95f21cd340b5a9cff3987ddb2abb9a2a38",
+                "reference": "38b44c95f21cd340b5a9cff3987ddb2abb9a2a38",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "workerman/workerman": ">=3.1.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "GatewayWorker\\": "./src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "communication",
+                "distributed"
+            ],
+            "time": "2019-07-02T11:55:24+00:00"
+        },
+        {
+            "name": "workerman/workerman",
+            "version": "v3.5.27",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/walkor/Workerman.git",
+                "reference": "c2d8c332cc58400345b68593584a5f8171446a5e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/walkor/Workerman/zipball/c2d8c332cc58400345b68593584a5f8171446a5e",
+                "reference": "c2d8c332cc58400345b68593584a5f8171446a5e",
+                "shasum": "",
+                "mirrors": [
+                    {
+                        "url": "https://mirrors.aliyun.com/composer/dists/%package%/%reference%.%type%",
+                        "preferred": true
+                    }
+                ]
+            },
+            "require": {
+                "php": ">=5.3"
+            },
+            "suggest": {
+                "ext-event": "For better performance. "
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Workerman\\": "./"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "walkor",
+                    "email": "walkor@workerman.net",
+                    "homepage": "http://www.workerman.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An asynchronous event driven PHP framework for easily building fast, scalable network applications.",
+            "homepage": "http://www.workerman.net",
+            "keywords": [
+                "asynchronous",
+                "event-loop"
+            ],
+            "time": "2020-01-31T05:05:18+00:00"
         }
     ],
     "packages-dev": [],

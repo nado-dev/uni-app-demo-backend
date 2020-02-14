@@ -550,5 +550,137 @@ public function otherlogin(){
         // 更新缓存信息
         Cache::set(request()->Token,$user,config('api.token_expire'));
     }
+
+
+    // 关联关注
+    public function withfollow(){
+        return $this->hasMany('Follow','user_id');
+    }
+    // 关注用户
+    public function ToFollow(){
+        // 获取所有参数
+        $params = request()->param();
+        // 获取用户id
+        $user_id = request()->userId;
+        $follow_id = $params['follow_id'];
+        // 不能关注自己
+        if($user_id == $follow_id) TApiException('非法操作',10000,200);
+        // 获取到当前用户的关注模型
+        $followModel = $this->get($user_id)->withfollow();
+        // 查询记录是否存在
+        $follow = $followModel->where('follow_id',$follow_id)->find();
+        if($follow) TApiException('已经关注过了',10000,200);
+        $followModel->create([
+            'user_id'=>$user_id,
+            'follow_id'=>$follow_id
+        ]);
+        return true;
+    }
+
+
+
+    // 取消关注
+    public function ToUnFollow(){
+        // 获取所有参数
+        $params = request()->param();
+        // 获取用户id
+        $user_id = request()->userId;
+        $follow_id = $params['follow_id'];
+        // 不能取消关注自己
+        if($user_id == $follow_id) TApiException('非法操作',10000,200);
+        $followModel = $this->get($user_id)->withfollow();
+        $follow = $followModel->where('follow_id',$follow_id)->find();
+        if(!$follow) TApiException('暂未关注',10000,200);
+        $follow->delete();
+    }
+
+
+    // 获取互关列表
+    public function getFriendsList(){
+        // 获取所有参数
+        $params = request()->param();
+        // 获取用户id
+        $userid = request()->userId;
+        $page = $params['page'];
+        // 模型关联无法满足需求时可以使用Db类
+        $follows = \Db::table('user')->where('id','IN', function($query) use($userid)
+        {
+            // 找出所有关注我的人的用户id
+            $query->table('follow')
+                ->where('user_id', 'IN', function ($query) use($userid){
+                    //  找出所有我关注的人的id
+                    $query->table('follow')->where('user_id', $userid)->field('follow_id');
+                })->where('follow_id',$userid)
+                ->field('user_id');
+        })->field('id,username,userpic')->page($page,10)->select();
+        return $follows;
+    }
+
+
+    // 关联粉丝列表
+    // 多对多：粉丝与用户网状关系
+    /**
+     *@param string $model — 模型名
+     *@param string $table — 中间表名
+     *@param string $foreignKey — 关联外键
+     *@param string $localKey — 当前模型关联键
+     *
+     * 判定技巧 在中间表中，通过传来的主表主键  查找关联的外键（参数3），在中间表中对应该表主键（当前模型关联键，参数4），
+     */
+    public function fens(){
+        return $this->belongsToMany('User','Follow','user_id','follow_id');
+    }
+   
+   
+    // 获取当前用户粉丝列表
+    public function getFensList(){
+        // 获取所有参数
+        $params = request()->param();
+        // 获取用户id
+        $userid = request()->userId;
+        $fens = $this->get($userid)->fens()->page($params['page'],10)->select()->toArray();
+        return $this->filterReturn($fens);
+    }
+
+
+
+    // 限制关注和粉丝返回字段
+    public function filterReturn($param = []){
+        $arr = [];
+        $length = count($param);
+        for ($i=0; $i < $length; $i++) { 
+            $arr[] = [
+                'id'=>$param[$i]['id'],
+                'username'=>$param[$i]['username'],
+                'userpic'=>$param[$i]['userpic'],
+            ];
+        }
+        return $arr;
+    }
+
+
+    // 关联关注列表
+    // 关联关系颠倒
+     /**
+     *@param string $model — 模型名
+     *@param string $table — 中间表名
+     *@param string $foreignKey — 关联外键
+     *@param string $localKey — 当前模型关联键 主键
+     * 判定技巧 在中间表中，通过传来的主表主键  查找关联的外键（参数3），在中间表中对应该表主键（当前模型关联键，参数4），
+     */
+    public function follows(){
+        return $this->belongsToMany('User','Follow','follow_id','user_id');
+    }
+
+
+    // 获取当前用户关注列表
+    public function getFollowsList(){
+        // 获取所有参数
+        $params = request()->param();
+        // 获取用户id
+        $userid = request()->userId;
+        $follows = $this->get($userid)->follows()->page($params['page'],10)->select()->toArray();
+        return $this->filterReturn($follows);
+    }
 }
 
